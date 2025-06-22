@@ -20,6 +20,7 @@
     "@tanstack/react-query": "^5.28.6",
     "ethers": "^6.11.1",
     "@circle-fin/user-controlled-wallets": "^1.0.0",
+    "@circle-fin/w3s-pw-web-sdk": "^3.0.0",
     "clsx": "^2.1.0"
   },
   "devDependencies": {

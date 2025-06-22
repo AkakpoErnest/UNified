@@ -5,6 +5,7 @@ import { USDCBalance } from './components/USDCBalance';
 import { TransactionInterface } from './components/TransactionInterface';
 import { TransactionHistory } from './components/TransactionHistory';
 import { GasFeatureCard } from './components/GasFeatureCard';
+import { SetupGuide } from './components/SetupGuide';
 import { useWallet } from './hooks/useWallet';
 import { Transaction } from './types';
 import { Zap, Github, ExternalLink, Shield, Sparkles } from 'lucide-react';
@@ -12,6 +13,7 @@ import { Zap, Github, ExternalLink, Shield, Sparkles } from 'lucide-react';
 function App() {
   const { isConnected } = useWallet();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [showSetupGuide, setShowSetupGuide] = useState(true);
 
   const handleTransaction = (type: string, data: any) => {
     const newTransaction: Transaction = {
@@ -26,7 +28,7 @@ function App() {
       gasFee: (Math.random() * 5 + 1).toFixed(2),
       status: 'success',
       timestamp: Date.now(),
-      chainId: 8453 // Base
+      chainId: 84532 // Base Sepolia
     };
 
     setTransactions(prev => [newTransaction, ...prev]);
@@ -59,7 +61,7 @@ function App() {
                 <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
                   UNified
                 </h1>
-                <p className="text-sm text-gray-300 font-medium">Universal Gas Payments</p>
+                <p className="text-sm text-gray-300 font-medium">Circle Testnet Demo</p>
               </div>
             </div>
             
@@ -90,67 +92,20 @@ function App() {
               UNified Gas
             </h2>
             <p className="text-2xl text-gray-300 mb-4 font-light">
-              One Token. All Chains. Zero Friction.
+              Circle Testnet Demo
             </p>
             <p className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Experience the future of blockchain transactions with UNified Gas. Pay all network fees using USDC across 7 major chains. 
-              No more juggling native tokens or worrying about gas fees. Just pure, seamless DeFi.
+              Experience Circle's USDC gas payment system on testnet. Pay all network fees using USDC across multiple chains. 
+              This is a demonstration using Circle's sandbox environment.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-16">
-              <div className="group bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20">
-                <div className="bg-gradient-to-br from-blue-500 to-cyan-500 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Zap className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Gas Abstraction</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  Revolutionary gas payment system. Use USDC for all transaction fees across any supported network. No native tokens required.
-                </p>
-              </div>
-              
-              <div className="group bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20">
-                <div className="bg-gradient-to-br from-purple-500 to-pink-500 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <ExternalLink className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Multi-Chain Unity</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  Seamlessly operate across Ethereum, Base, Arbitrum, Optimism, Polygon, Avalanche, and Unichain with unified gas payments.
-                </p>
-              </div>
-              
-              <div className="group bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/20">
-                <div className="bg-gradient-to-br from-green-500 to-emerald-500 p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Shield className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-4">Enterprise Ready</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  Built on Circle's robust infrastructure with enterprise-grade security, reliability, and developer-friendly integration.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-center">
+            <div className="flex justify-center mb-12">
               <WalletConnection />
             </div>
 
-            {/* Stats Section */}
-            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">7</div>
-                <div className="text-gray-400 font-medium">Supported Chains</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">$0</div>
-                <div className="text-gray-400 font-medium">Setup Fees</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">100%</div>
-                <div className="text-gray-400 font-medium">Success Rate</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-red-400">24/7</div>
-                <div className="text-gray-400 font-medium">Availability</div>
-              </div>
+            {/* Setup Guide */}
+            <div className="max-w-4xl mx-auto">
+              <SetupGuide />
             </div>
           </div>
         ) : (
@@ -158,6 +113,17 @@ function App() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column */}
             <div className="lg:col-span-2 space-y-8">
+              {showSetupGuide && (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowSetupGuide(false)}
+                    className="absolute top-4 right-4 text-gray-400 hover:text-white z-10"
+                  >
+                    ✕
+                  </button>
+                  <SetupGuide />
+                </div>
+              )}
               <TransactionInterface onTransaction={handleTransaction} />
               <TransactionHistory transactions={transactions} />
             </div>
@@ -171,15 +137,15 @@ function App() {
               <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
                 <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-yellow-400" />
-                  Your UNified Stats
+                  Testnet Stats
                 </h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                    <span className="text-gray-300 font-medium">Total Transactions</span>
+                    <span className="text-gray-300 font-medium">Test Transactions</span>
                     <span className="text-white font-bold text-lg">{transactions.length}</span>
                   </div>
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                    <span className="text-gray-300 font-medium">Gas Saved (USDC)</span>
+                    <span className="text-gray-300 font-medium">USDC Gas Used</span>
                     <span className="text-green-400 font-bold text-lg">
                       ${(transactions.length * 2.5).toFixed(2)}
                     </span>
@@ -187,12 +153,6 @@ function App() {
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl">
                     <span className="text-gray-300 font-medium">Success Rate</span>
                     <span className="text-green-400 font-bold text-lg">100%</span>
-                  </div>
-                  <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl">
-                    <span className="text-gray-300 font-medium">Chains Used</span>
-                    <span className="text-blue-400 font-bold text-lg">
-                      {new Set(transactions.map(tx => tx.chainId)).size || 1}
-                    </span>
                   </div>
                 </div>
               </div>
@@ -214,7 +174,7 @@ function App() {
                   UNified Gas
                 </div>
                 <div className="text-sm text-gray-400">
-                  Built for DoraHacks Hackathon 2025
+                  Circle Testnet Demo - DoraHacks 2025
                 </div>
               </div>
             </div>
@@ -229,13 +189,13 @@ function App() {
                 Circle Docs
               </a>
               <a
-                href="https://github.com"
+                href="https://faucet.circle.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-purple-400 transition-colors flex items-center gap-2 font-medium"
+                className="text-gray-400 hover:text-green-400 transition-colors flex items-center gap-2 font-medium"
               >
-                <Github className="w-4 h-4" />
-                GitHub
+                <ExternalLink className="w-4 h-4" />
+                USDC Faucet
               </a>
             </div>
           </div>
