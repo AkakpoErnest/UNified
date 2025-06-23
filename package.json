@@ -13,16 +13,8 @@
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "wagmi": "^2.5.7",
-    "viem": "^2.7.13",
-    "@wagmi/core": "^2.6.5",
-    "@wagmi/connectors": "^4.1.18",
-    "@tanstack/react-query": "^5.28.6",
     "ethers": "^6.11.1",
-    "@circle-fin/user-controlled-wallets": "^1.0.0",
-    "@circle-fin/w3s-pw-web-sdk": "^3.0.0",
-    "clsx": "^2.1.0",
-    "i18next": "^23.2.3"
+    "clsx": "^2.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
