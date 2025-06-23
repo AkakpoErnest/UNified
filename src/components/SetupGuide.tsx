@@ -17,8 +17,8 @@ export const SetupGuide: React.FC = () => {
           <AlertCircle className="w-6 h-6 text-white" />
         </div>
         <div>
-          <h3 className="text-xl font-bold text-white">Circle Testnet Setup Required</h3>
-          <p className="text-sm text-gray-300">Follow these steps to test real USDC gas payments</p>
+          <h3 className="text-xl font-bold text-white">Getting Started with UNified Gas</h3>
+          <p className="text-sm text-gray-300">Follow these steps to experience seamless Web3 transactions</p>
         </div>
       </div>
 
@@ -30,7 +30,7 @@ export const SetupGuide: React.FC = () => {
             <h4 className="text-white font-semibold">Get Circle Developer Account</h4>
           </div>
           <p className="text-gray-300 text-sm mb-3">
-            Sign up for Circle's developer platform to access testnet APIs
+            Sign up for Circle's developer platform to access testnet APIs and paymaster services
           </p>
           <a
             href="https://developers.circle.com/"
@@ -50,7 +50,7 @@ export const SetupGuide: React.FC = () => {
             <h4 className="text-white font-semibold">Get Testnet USDC</h4>
           </div>
           <p className="text-gray-300 text-sm mb-3">
-            Get testnet USDC from Circle's faucet for testing
+            Get testnet USDC from Circle's faucet to power your gas payments
           </p>
           <div className="space-y-2">
             <a
@@ -72,7 +72,7 @@ export const SetupGuide: React.FC = () => {
             <h4 className="text-white font-semibold">Switch to Testnet</h4>
           </div>
           <p className="text-gray-300 text-sm mb-3">
-            Add these testnet networks to your wallet:
+            Add these testnet networks to your wallet for seamless testing:
           </p>
           <div className="space-y-2">
             {[
@@ -101,14 +101,14 @@ export const SetupGuide: React.FC = () => {
         <div className="bg-white/5 rounded-xl p-4 border border-white/10">
           <div className="flex items-center gap-3 mb-3">
             <div className="bg-cyan-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm">4</div>
-            <h4 className="text-white font-semibold">Test Transactions</h4>
+            <h4 className="text-white font-semibold">Experience the Magic</h4>
           </div>
           <p className="text-gray-300 text-sm mb-3">
-            Once you have testnet USDC, you can test gas-free transactions!
+            Once you have testnet USDC, enjoy frictionless transactions across all supported chains!
           </p>
           <div className="flex items-center gap-2 text-cyan-400 text-sm">
             <Zap className="w-4 h-4" />
-            <span>All gas fees will be paid automatically in USDC</span>
+            <span>All gas fees automatically paid in USDC - no more native tokens needed!</span>
           </div>
         </div>
       </div>
@@ -116,13 +116,13 @@ export const SetupGuide: React.FC = () => {
       <div className="mt-6 p-4 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-400/30 rounded-xl">
         <div className="flex items-center gap-2 text-yellow-400 text-sm font-medium mb-2">
           <AlertCircle className="w-4 h-4" />
-          Important Notes
+          Why UNified Gas Makes Web3 Life Easy
         </div>
         <ul className="text-gray-300 text-sm space-y-1">
-          <li>• This is testnet - no real money involved</li>
-          <li>• You need testnet USDC in your wallet for gas payments</li>
-          <li>• Switch your wallet to one of the supported testnets</li>
-          <li>• Circle Paymaster handles the gas conversion automatically</li>
+          <li>• <strong>One Token:</strong> Pay all gas fees with USDC across any chain</li>
+          <li>• <strong>Zero Friction:</strong> No need to hold native tokens for each network</li>
+          <li>• <strong>Universal:</strong> Works seamlessly across Ethereum, Base, Arbitrum, and more</li>
+          <li>• <strong>Secure:</strong> Powered by Circle's enterprise-grade infrastructure</li>
         </ul>
       </div>
     </div>

@@ -61,7 +61,7 @@ function App() {
                 <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
                   UNified
                 </h1>
-                <p className="text-sm text-gray-300 font-medium">Circle Testnet Demo</p>
+                <p className="text-sm text-gray-300 font-medium">Making Web3 Life Easy</p>
               </div>
             </div>
             
@@ -92,11 +92,11 @@ function App() {
               UNified Gas
             </h2>
             <p className="text-2xl text-gray-300 mb-4 font-light">
-              Circle Testnet Demo
+              Making Web3 Life Easy
             </p>
             <p className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Experience Circle's USDC gas payment system on testnet. Pay all network fees using USDC across multiple chains. 
-              This is a demonstration using Circle's sandbox environment.
+              Experience seamless blockchain transactions with USDC gas payments. One token, all chains, zero friction. 
+              Powered by Circle's innovative paymaster technology for the ultimate Web3 experience.
             </p>
             
             <div className="flex justify-center mb-12">
@@ -137,7 +137,7 @@ function App() {
               <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6">
                 <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-yellow-400" />
-                  Testnet Stats
+                  Demo Stats
                 </h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center p-3 bg-white/5 rounded-xl">
@@ -174,7 +174,7 @@ function App() {
                   UNified Gas
                 </div>
                 <div className="text-sm text-gray-400">
-                  Circle Testnet Demo - DoraHacks 2025
+                  Making Web3 Life Easy - DoraHacks 2025
                 </div>
               </div>
             </div>
