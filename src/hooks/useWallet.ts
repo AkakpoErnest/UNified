@@ -81,22 +81,86 @@ export const useWallet = () => {
     }
 
     try {
+      // First try to switch to the chain
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${targetChainId.toString(16)}` }],
       });
       
-      // Update local state immediately
-      setWallet(prev => ({ ...prev, chainId: targetChainId }));
+      // Update local state after successful switch
+      const provider = new BrowserProvider(window.ethereum);
+      const network = await provider.getNetwork();
+      setWallet(prev => ({ ...prev, chainId: Number(network.chainId) }));
+      
     } catch (error: any) {
       console.error('Failed to switch chain:', error);
       
       if (error.code === 4902) {
-        // Chain not added to wallet - you could add chain addition logic here
-        alert(`Please add chain ${targetChainId} to your wallet manually`);
+        // Chain not added to wallet - try to add it
+        try {
+          const chainConfigs: Record<number, any> = {
+            11155111: {
+              chainId: '0xaa36a7',
+              chainName: 'Ethereum Sepolia',
+              nativeCurrency: {
+                name: 'Ethereum',
+                symbol: 'ETH',
+                decimals: 18,
+              },
+              rpcUrls: ['https://sepolia.infura.io/v3/'],
+              blockExplorerUrls: ['https://sepolia.etherscan.io'],
+            },
+            84532: {
+              chainId: '0x14a34',
+              chainName: 'Base Sepolia',
+              nativeCurrency: {
+                name: 'Ethereum',
+                symbol: 'ETH',
+                decimals: 18,
+              },
+              rpcUrls: ['https://sepolia.base.org'],
+              blockExplorerUrls: ['https://sepolia.basescan.org'],
+            },
+            421614: {
+              chainId: '0x66eee',
+              chainName: 'Arbitrum Sepolia',
+              nativeCurrency: {
+                name: 'Ethereum',
+                symbol: 'ETH',
+                decimals: 18,
+              },
+              rpcUrls: ['https://sepolia-rollup.arbitrum.io/rpc'],
+              blockExplorerUrls: ['https://sepolia.arbiscan.io'],
+            },
+          };
+
+          const chainConfig = chainConfigs[targetChainId];
+          if (chainConfig) {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [chainConfig],
+            });
+            
+            // Try to switch again after adding
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: chainConfig.chainId }],
+            });
+            
+            // Update local state
+            const provider = new BrowserProvider(window.ethereum);
+            const network = await provider.getNetwork();
+            setWallet(prev => ({ ...prev, chainId: Number(network.chainId) }));
+          }
+        } catch (addError) {
+          console.error('Failed to add chain:', addError);
+          alert(`Failed to add chain ${targetChainId} to your wallet. Please add it manually.`);
+        }
       } else if (error.code === 4001) {
         // User rejected the request
         console.log('User rejected chain switch');
+      } else {
+        alert(`Failed to switch to chain ${targetChainId}. Please try again.`);
       }
     }
   };
@@ -124,6 +188,8 @@ export const useWallet = () => {
       const handleChainChanged = (chainId: string) => {
         const newChainId = parseInt(chainId, 16);
         setWallet(prev => ({ ...prev, chainId: newChainId }));
+        // Refresh the page to ensure clean state
+        window.location.reload();
       };
 
       const handleDisconnect = () => {
