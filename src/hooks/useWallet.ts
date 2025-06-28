@@ -76,21 +76,33 @@ export const useWallet = () => {
 
   const switchChain = async (targetChainId: number) => {
     if (!window.ethereum) {
-      console.error('No wallet detected');
-      return;
+      throw new Error('No wallet detected');
     }
+
+    if (!wallet.account) {
+      throw new Error('Wallet not connected');
+    }
+
+    const chainHex = `0x${targetChainId.toString(16)}`;
 
     try {
       // First try to switch to the chain
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: `0x${targetChainId.toString(16)}` }],
+        params: [{ chainId: chainHex }],
       });
       
       // Update local state after successful switch
       const provider = new BrowserProvider(window.ethereum);
       const network = await provider.getNetwork();
-      setWallet(prev => ({ ...prev, chainId: Number(network.chainId) }));
+      const balance = await provider.getBalance(wallet.account);
+      
+      setWallet(prev => ({ 
+        ...prev, 
+        chainId: Number(network.chainId),
+        balance: ethers.formatEther(balance),
+        provider
+      }));
       
     } catch (error: any) {
       console.error('Failed to switch chain:', error);
@@ -150,17 +162,26 @@ export const useWallet = () => {
             // Update local state
             const provider = new BrowserProvider(window.ethereum);
             const network = await provider.getNetwork();
-            setWallet(prev => ({ ...prev, chainId: Number(network.chainId) }));
+            const balance = await provider.getBalance(wallet.account);
+            
+            setWallet(prev => ({ 
+              ...prev, 
+              chainId: Number(network.chainId),
+              balance: ethers.formatEther(balance),
+              provider
+            }));
+          } else {
+            throw new Error(`Unsupported chain ID: ${targetChainId}`);
           }
         } catch (addError) {
           console.error('Failed to add chain:', addError);
-          alert(`Failed to add chain ${targetChainId} to your wallet. Please add it manually.`);
+          throw new Error(`Failed to add chain ${targetChainId} to your wallet. Please add it manually.`);
         }
       } else if (error.code === 4001) {
         // User rejected the request
-        console.log('User rejected chain switch');
+        throw new Error('User rejected the chain switch request');
       } else {
-        alert(`Failed to switch to chain ${targetChainId}. Please try again.`);
+        throw new Error(`Failed to switch to chain ${targetChainId}: ${error.message}`);
       }
     }
   };
@@ -177,19 +198,50 @@ export const useWallet = () => {
 
   useEffect(() => {
     if (window.ethereum) {
-      const handleAccountsChanged = (accounts: string[]) => {
+      const handleAccountsChanged = async (accounts: string[]) => {
         if (accounts.length === 0) {
           disconnectWallet();
         } else {
-          setWallet(prev => ({ ...prev, account: accounts[0] }));
+          try {
+            const provider = new BrowserProvider(window.ethereum);
+            const network = await provider.getNetwork();
+            const balance = await provider.getBalance(accounts[0]);
+            
+            setWallet(prev => ({ 
+              ...prev, 
+              account: accounts[0],
+              chainId: Number(network.chainId),
+              balance: ethers.formatEther(balance),
+              provider
+            }));
+          } catch (error) {
+            console.error('Failed to update account info:', error);
+          }
         }
       };
 
-      const handleChainChanged = (chainId: string) => {
-        const newChainId = parseInt(chainId, 16);
-        setWallet(prev => ({ ...prev, chainId: newChainId }));
-        // Refresh the page to ensure clean state
-        window.location.reload();
+      const handleChainChanged = async (chainId: string) => {
+        try {
+          const newChainId = parseInt(chainId, 16);
+          const provider = new BrowserProvider(window.ethereum);
+          
+          if (wallet.account) {
+            const balance = await provider.getBalance(wallet.account);
+            setWallet(prev => ({ 
+              ...prev, 
+              chainId: newChainId,
+              balance: ethers.formatEther(balance),
+              provider
+            }));
+          } else {
+            setWallet(prev => ({ ...prev, chainId: newChainId, provider }));
+          }
+        } catch (error) {
+          console.error('Failed to handle chain change:', error);
+          // Fallback: just update chain ID
+          const newChainId = parseInt(chainId, 16);
+          setWallet(prev => ({ ...prev, chainId: newChainId }));
+        }
       };
 
       const handleDisconnect = () => {
@@ -208,7 +260,7 @@ export const useWallet = () => {
         }
       };
     }
-  }, []);
+  }, [wallet.account]);
 
   const isConnected = !!wallet.account;
 
